@@ -27,5 +27,5 @@ void IntroThreadWorker::run()
         QThread::currentThread()->msleep(500);
     }
 
-    emit stopThread();
+    emit finished();
 }

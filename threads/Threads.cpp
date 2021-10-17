@@ -1,4 +1,7 @@
 #include "Threads.h"
+#include "IntroThreadWorker.h"
+#include "BetweenThreadWorker.h"
+
 /**
  * @brief Threads::Threads.
  * @param parent
@@ -13,18 +16,46 @@ Threads::Threads(QObject *parent) : QObject(parent)
 Threads::~Threads()
 {
     qInfo() << "Threads deconstructed";
-    delete  _introThreadWorker;
 }
 /**
  * @brief Threads::on_intro
  */
 void Threads::on_intro()
 {
-    _thread.setObjectName("IntroThreadWorker");
-    _introThreadWorker->moveToThread(&_thread);
+    introThreadWorker = new class IntroThreadWorker();
+    thread.setObjectName("IntroThreadWorker");
+    introThreadWorker->moveToThread(&thread);
 
-    connect(&_thread, &QThread::started, _introThreadWorker, &IntroThreadWorker::run);
-    connect(_introThreadWorker, &IntroThreadWorker::stopThread, &_thread, &QThread::quit);
+    connect(&thread, &QThread::started, introThreadWorker, &IntroThreadWorker::run);
+    connect(introThreadWorker, &IntroThreadWorker::finished, &thread, &QThread::quit);
 
-    _thread.start();
+    thread.start();
+}
+/**
+ * @brief Threads::on_between
+ */
+void Threads::on_between()
+{
+    producer = new class BetweenThreadWorker();
+    consumer = new class BetweenThreadWorker();
+
+    producer->moveToThread(&pThread);
+    consumer->moveToThread(&cThread);
+
+    producer->setProducer(true);
+
+    pThread.setObjectName("Producer thread");
+    cThread.setObjectName("Consumer thread");
+
+    producer->setObjectName("Producer");
+    consumer->setObjectName("Consumer");
+
+    connect(&pThread, &QThread::started, producer, &BetweenThreadWorker::run);
+    connect(&cThread, &QThread::started, consumer, &BetweenThreadWorker::run);
+
+    connect(producer, &BetweenThreadWorker::produced, consumer, &BetweenThreadWorker::consume);
+    connect(producer, &BetweenThreadWorker::finished, consumer, &BetweenThreadWorker::quit);
+
+    cThread.start();
+    pThread.start();
 }

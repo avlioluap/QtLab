@@ -26,6 +26,7 @@ Page {
             id: communicating_button
             text: qsTr("Communicating between threads")
             Layout.fillWidth: true
+            onClicked: cThreads.on_between()
         }
 
         Button {

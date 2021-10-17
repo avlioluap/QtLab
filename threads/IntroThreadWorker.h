@@ -21,7 +21,7 @@ public slots:
 private slots:
 
 signals:
-    void stopThread();
+    void finished();
 };
 
 #endif // INTROTHREADWORKER_H

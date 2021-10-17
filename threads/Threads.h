@@ -4,7 +4,9 @@
 #include <QObject>
 #include <QDebug>
 #include <QThread>
-#include "IntroThreadWorker.h"
+
+class IntroThreadWorker;
+class BetweenThreadWorker;
 
 class Threads : public QObject
 {
@@ -15,10 +17,15 @@ public:
     explicit Threads(QObject *parent = nullptr);
     ~Threads();
     Q_INVOKABLE void on_intro();
+    Q_INVOKABLE void on_between();
 private:
-    QThread _thread;
-    IntroThreadWorker* _introThreadWorker = new IntroThreadWorker();
+    QThread thread;
+    QThread pThread;
+    QThread cThread;
 
+    IntroThreadWorker* introThreadWorker;
+    BetweenThreadWorker* producer;
+    BetweenThreadWorker* consumer;
 public slots:
 
 
