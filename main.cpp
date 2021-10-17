@@ -1,6 +1,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-
+#include <QQmlContext>
+#include <MainWindow.h>
+#include <QThread>
+#include <threads/Threads.h>
 
 int main(int argc, char *argv[])
 {
@@ -9,6 +12,8 @@ int main(int argc, char *argv[])
 #endif
 
     QGuiApplication app(argc, argv);
+
+    QThread::currentThread()->setObjectName("Main thread");
 
     QQmlApplicationEngine engine;
 
@@ -21,6 +26,16 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
 
     engine.load(url);
+
+
+    QQmlContext* rootContext = engine.rootContext();
+
+    Threads threads;
+    rootContext->setContextProperty("cThreads", &threads);
+
+
+    MainWindow g_MainWindow;
+    g_MainWindow.registerTypes();
 
     return app.exec();
 }

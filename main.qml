@@ -6,7 +6,7 @@ ApplicationWindow {
     width: 640
     height: 480
     visible: true
-    title: qsTr("Qt Lab")
+    title: qsTr("Stack")
 
     header: ToolBar {
         contentHeight: toolButton.implicitHeight
@@ -42,7 +42,7 @@ ApplicationWindow {
                 text: qsTr("Threads")
                 width: parent.width
                 onClicked: {
-                    stackView.push("threads")
+                    stackView.push("threads/threadsMenu")
                     drawer.close()
                 }
             }
@@ -51,7 +51,7 @@ ApplicationWindow {
 
     StackView {
         id: stackView
-        initialItem: "home"
+        initialItem: "home/home"
         anchors.fill: parent
     }
 }
