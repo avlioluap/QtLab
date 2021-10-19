@@ -1,6 +1,7 @@
 #include "Threads.h"
 #include "IntroThreadWorker.h"
 #include "BetweenThreadWorker.h"
+#include "ManagerThread.h"
 
 /**
  * @brief Threads::Threads.
@@ -58,4 +59,12 @@ void Threads::on_between()
 
     cThread.start();
     pThread.start();
+}
+/**
+ * @brief Threads::on_manager
+ */
+void Threads::on_manager()
+{
+    ManagerThread manager;
+    manager.start();
 }

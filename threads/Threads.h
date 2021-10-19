@@ -18,6 +18,7 @@ public:
     ~Threads();
     Q_INVOKABLE void on_intro();
     Q_INVOKABLE void on_between();
+    Q_INVOKABLE void on_manager();
 private:
     QThread thread;
     QThread pThread;

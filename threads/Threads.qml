@@ -33,6 +33,7 @@ Page {
             id: pools_button
             text: qsTr("Thread pools")
             Layout.fillWidth: true
+            onClicked: cThreads.on_manager()
         }
     }
 
